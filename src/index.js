@@ -220,63 +220,63 @@ domready(
             const polygons = diagram.polygons()
             ctx.strokeStyle = fgColor
 
-            //polygons.forEach( p => drawPolygon(p, config.palette))
+            polygons.forEach( p => drawPolygon(p, config.palette))
 
-            for (let currentY = 0; currentY < height; currentY += FORCE_LEN* 0.4     )
-            {
-                for (let currentX = 0; currentX < width; currentX += FORCE_LEN * 0.4)
-                {
-                    const current = diagram.find(currentX,currentY)
-                    const index = sites.get(key(current[0],current[1]))
-                    const { halfedges } = diagram.cells[index]
-
-                    const nodes = [{site: current, index}]
-                    halfedges.forEach(
-                        e => {
-                            const { left, right } = diagram.edges[e]
-                            const other = current[0] === left[0] && current[1] === left[1] ? right : left
-                            if (other)
-                            {
-                                nodes.push(
-                                    {
-                                        site: other,
-                                        index: sites.get(key(other[0],other[1]))
-                                    }
-                                )
-                            }
-                        }
-                    )
-
-                    let dx = 0
-                    let dy = 0
-
-                    const influences = []
-                    nodes.forEach(
-                        ({site, index}) => {
-
-                            const [fx,fy] = forces[index]
-
-
-                            const x = currentX - site[0]
-                            const y = currentY - site[1]
-
-                            const influence = Math.min(1, BASE_FORCE/Math.pow(x*x+y*y, 2))
-                            dx += fx * influence
-                            dy += fy * influence
-
-                            influences.push(influence)
-                        }
-                    )
-                        console.log("INFLUENCES", influences)
-
-                    const f = 1/Math.sqrt(dx * dx + dy * dy)
-                    dx *= f
-                    dy *= f
-
-
-                    drawArrow( currentX, currentY,currentX + dx * FORCE_LEN, currentY + dy * FORCE_LEN)
-               }
-            }
+            // for (let currentY = 0; currentY < height; currentY += FORCE_LEN* 0.4     )
+            // {
+            //     for (let currentX = 0; currentX < width; currentX += FORCE_LEN * 0.4)
+            //     {
+            //         const current = diagram.find(currentX,currentY)
+            //         const index = sites.get(key(current[0],current[1]))
+            //         const { halfedges } = diagram.cells[index]
+            //
+            //         const nodes = [{site: current, index}]
+            //         halfedges.forEach(
+            //             e => {
+            //                 const { left, right } = diagram.edges[e]
+            //                 const other = current[0] === left[0] && current[1] === left[1] ? right : left
+            //                 if (other)
+            //                 {
+            //                     nodes.push(
+            //                         {
+            //                             site: other,
+            //                             index: sites.get(key(other[0],other[1]))
+            //                         }
+            //                     )
+            //                 }
+            //             }
+            //         )
+            //
+            //         let dx = 0
+            //         let dy = 0
+            //
+            //         const influences = []
+            //         nodes.forEach(
+            //             ({site, index}) => {
+            //
+            //                 const [fx,fy] = forces[index]
+            //
+            //
+            //                 const x = currentX - site[0]
+            //                 const y = currentY - site[1]
+            //
+            //                 const influence = Math.min(1, BASE_FORCE/Math.pow(x*x+y*y, 2))
+            //                 dx += fx * influence
+            //                 dy += fy * influence
+            //
+            //                 influences.push(influence)
+            //             }
+            //         )
+            //             console.log("INFLUENCES", influences)
+            //
+            //         const f = 1/Math.sqrt(dx * dx + dy * dy)
+            //         dx *= f
+            //         dy *= f
+            //
+            //
+            //         drawArrow( currentX, currentY,currentX + dx * FORCE_LEN, currentY + dy * FORCE_LEN)
+            //    }
+            // }
 
             // forces.forEach( (f,idx) => {
             //
