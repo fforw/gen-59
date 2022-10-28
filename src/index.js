@@ -105,14 +105,26 @@ domready(
         canvas = document.getElementById("screen");
         ctx = canvas.getContext("2d");
 
-        const width = (window.innerWidth) | 0;
-        const height = (window.innerHeight) | 0;
+        const w = (window.innerWidth) | 0;
+        const h = (window.innerHeight) | 0;
+
+
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+
+        const scale = window.devicePixelRatio
+
+        const width = (scale * w) | 0;
+        const height = (scale * h) | 0;
 
         config.width = width;
         config.height = height;
 
         canvas.width = width;
         canvas.height = height;
+
+        console.log({width,height})
+        //ctx.scale(scale, scale)
 
         const angle = Math.random() * TAU
 
